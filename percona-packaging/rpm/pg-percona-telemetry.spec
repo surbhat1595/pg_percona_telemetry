@@ -10,7 +10,7 @@ Release:        %{rpm_release}%{?dist}
 License:        PostgreSQL
 Source0:        percona-pg-telemetry%{pgrel}-%{version}.tar.gz
 URL:            https://github.com/percona/percona_pg_telemetry
-BuildRequires:  percona-postgresql%{pgrel}-devel
+#BuildRequires:  percona-postgresql%{pgrel}-devel
 Requires:       percona-telemetry-agent
 Provides:       percona-pg-telemetry%{pgrel}
 Conflicts:      percona-pg-telemetry%{pgrel}

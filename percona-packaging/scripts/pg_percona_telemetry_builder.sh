@@ -207,7 +207,7 @@ install_deps() {
         percona-release enable ${PPG_REPO} testing
 
         yum -y install git wget
-        PKGLIST="percona-postgresql${PG_RELEASE}-devel"
+        #PKGLIST="percona-postgresql${PG_RELEASE}-devel"
 	if [ x"$RHEL" = x8 ]; then
             yum -y install python2-devel
 	    llvm_version=$(yum list --showduplicates llvm-devel | grep "17.0" | grep llvm | awk '{print $2}' | head -n 1)
@@ -223,7 +223,7 @@ install_deps() {
         else
             yum install -y clang-devel clang
         fi
-        PKGLIST+=" git rpmdevtools vim wget"
+        PKGLIST=" git rpmdevtools vim wget"
         PKGLIST+=" perl binutils gcc gcc-c++"
         PKGLIST+=" git rpm-build rpmdevtools wget gcc make autoconf"
         if [[ "${RHEL}" -ge 8 ]]; then
@@ -256,7 +256,7 @@ install_deps() {
         percona-release enable ${PPG_REPO} testing
 
 
-        PKGLIST="percona-postgresql-common percona-postgresql-server-dev-all"
+       # PKGLIST="percona-postgresql-common percona-postgresql-server-dev-all"
 
         # ---- using a community version of postgresql
         #wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
@@ -275,7 +275,7 @@ install_deps() {
             fi
         fi
 
-        PKGLIST+=" debconf debhelper clang devscripts dh-exec git wget libkrb5-dev libssl-dev"
+        PKGLIST=" debconf debhelper clang devscripts dh-exec git wget libkrb5-dev libssl-dev"
         PKGLIST+=" build-essential debconf debhelper devscripts dh-exec git wget libxml-checker-perl"
         PKGLIST+=" libxml-libxml-perl libio-socket-ssl-perl libperl-dev libssl-dev libxml2-dev txt2man zlib1g-dev libpq-dev"
 
