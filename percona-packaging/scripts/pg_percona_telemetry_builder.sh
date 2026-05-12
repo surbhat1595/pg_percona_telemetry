@@ -210,18 +210,17 @@ install_deps() {
         PKGLIST="percona-postgresql${PG_RELEASE}-devel"
 	if [ x"$RHEL" = x8 ]; then
             yum -y install python2-devel
-	    llvm_version=$(yum list --showduplicates llvm-devel | grep "17.0" | grep llvm | awk '{print $2}' | head -n 1)
-	    yum -y install llvm-devel-${llvm_version}
+            # Match the llvm major used to build percona-postgresql${PG_RELEASE}-devel.
+            # Percona builds PG14/15/16/17 on OL8.10 against the default llvm-toolset
+            # stream (currently llvm 20). Reset any prior pin/disable, then enable the
+            # default stream and install latest llvm/clang from AppStream so that
+            # /usr/lib64/llvm<N>/bin/llvm-lto exists at extension build time
+            # (PGXS bakes that path into Makefile.global at PG build time).
+            dnf -y module reset llvm-toolset || true
+            dnf -y module enable llvm-toolset:rhel8 || true
+            yum -y install llvm-devel clang-devel clang
         else
-            yum -y install python-devel llvm-devel
-        fi
-        if [ x"$RHEL" = x8 ];
-        then
-	    clang_version=$(yum list --showduplicates clang-devel | grep "17.0" | grep clang | awk '{print $2}' | head -n 1)
-            yum install -y clang-devel-${clang_version} clang-${clang_version}
-            dnf module -y disable llvm-toolset
-        else
-            yum install -y clang-devel clang
+            yum -y install python-devel llvm-devel clang-devel clang
         fi
         PKGLIST+=" git rpmdevtools vim wget"
         PKGLIST+=" perl binutils gcc gcc-c++"
